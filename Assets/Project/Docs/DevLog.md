@@ -26,3 +26,44 @@
 - 기본 이동 입력 구현
 - 카메라가 플레이어를 따라가도록 구성
 - 첫 번째 기능 커밋 남기기
+====================================
+## 2026-06-02
+
+## 오늘 목표
+- Unity 6 엔진의 기본 인터페이스와 핵심 기능들을 빠르게 복습한다.
+- 포트폴리오 개발에 들어가기 전 Unity 작업 환경과 기본 용어를 다시 정리한다.
+
+### 오늘 한 일
+- <<Do it! 유니티 6로 게임 제작 & 출시하기>>를 2-2까지 읽으며 Unity 기본 구조를 복습했다.
+- Unity Hub, 프로젝트 실행, Scene View, Game View, Hierarchy, Inspector, Project 창의 역할을 확인했다.
+- 2D GameObject와 3D GameObject의 기본 차이를 간단히 살펴보았다.
+- GameObject와 Component의 관계를 다시 정리했다.
+- URP와 HDRP의 차이를 간단하게 정리했다.
+- Camera 설정이 Scene 화면과 Game 화면에 어떤 영향을 주는지 확인했다.
+- 2D 프로젝트에서 사용할 수 있는 Light 2D 설정을 간단히 확인했다.
+- 오늘은 기능 구현보다는 Unity 엔진에 다시 익숙해지는데 집중했다.
+
+### 배운 내용
+- Unity의 GameObject는 씬에 배치되는 기본 단위이며, 실제 기능은 Componet를 추가해 구성한다.
+- Inspector는 선택한 오브젝트의 Transform, Sprite Renderer, Camera, Light 같은 컴포넌트 값을 확인하고 수정하는 핵심 창이다.
+- Hierachy는 현재 Scene에 존재하는 오브젝트 구조를 확인하는 곳이고, Project창은 Assets 폴더 안의 파일과 리소스를 관리하는 곳이다>
+- 2D GameObject는 Sprite 기반의 오브젝트를 다루는데 적합하고, 3D GameObject는 Mesh와 3D 공간을 기반으로 구성된다.
+- Camera 설정은 실제 플레이어가 보게 되는 Game View에 직접적인 영향을 주기 때문에, 2D 탑다운 액션 로그라이트에서도 초반부터 기준을 잘 잡아야 한다.
+- Light 2D는 2D 환경에서도 분위기와 가독성을 조절할 수 있는 기능이며, 추후 스테이지 연출이나 피격 효과 등에 응용할 수 있다.
+
+### 포트폴리오에 적용할 부분
+- Player, Enemy, Camera, UI를 각각 GameObject 단위로 구성하고, 기능은 Component와 Script로 분리하는 방향으로 설계한다.
+- 앞으로 PlayerMovement, Health, EnemyAI, CameraFollow 같은 스크립트를 각각의 책임에 맞게 나누어 작성한다.
+- 프로젝트 폴더 구조를 미리 정리해 Scripts, Prefabs, Scenes, Sprites, UI 리소스를 구분해서 관리한다.
+- Camera는 플레이어 추적 기능을 구현할 때 중요한 기준 오브젝트가 되므로, 다음 작업에서 Camera 설정과 추적 방식을 함께 확인한다.
+### 막힌 부분
+
+### 해결한 방법
+- 오늘은 모든 기능을 깊게 이해하려고 하기보다, Unity 작업 화면과 기본 용어를 빠르게 훑으며 전체 구조를 다시 잡는 방식으로 학습했다.
+- 구현은 무리하게 진행하지 않고, 다음 작업에서 플레이어 오브젝트 생성과 이동 구현으로 이어가기로 했다.
+### 내일 할 일
+- Player 오브젝트를 생성한다.
+- PlayerMovement 스크립트를 작성한다.
+- 키보드 입력으로 플레이어 이동을 테스트한다.
+- 가능하면 Camera가 Player를 따라가도록 간단한 CameraFollow 구조를 준비한다.
+====================================
