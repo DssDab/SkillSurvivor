@@ -14,6 +14,7 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 offset = new Vector3(0.5f, 0.5f, 0);
     private List<Vector3> possibleTiles = new List<Vector3>();
 
+    public static List<EntityBase> Enemies { get; private set; } = new List<EntityBase>();
     private void Awake()
     {
         // Tilemap의 Bounds 재설정(맵을 수정할 때 Bounds가 변경되지 않는 문제 해결)
@@ -27,7 +28,9 @@ public class EnemySpawner : MonoBehaviour
             int type = Random.Range(0, enemyPrefab.Length);
             int index = Random.Range(0, possibleTiles.Count);
 
-            Instantiate(enemyPrefab[type], possibleTiles[index], Quaternion.identity, transform);
+            GameObject clone = Instantiate(enemyPrefab[type], possibleTiles[index], Quaternion.identity, transform);
+
+            Enemies.Add(clone.GetComponent<EntityBase>());
         }
     }
     private void CalculatePossibleTiles()

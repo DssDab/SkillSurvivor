@@ -4,10 +4,14 @@ public class EntityBase : MonoBehaviour
 {
     [SerializeField]
     protected EntityStats stats;
-
+    [SerializeField]
+    private Transform middlePoint;
     public EntityStats Stats => stats;
     public bool IsDead => stats.currentHP <= 0;
 
+    public EntityBase Target {  get; set; }
+
+    public Vector3 MiddlePoint => middlePoint != null ? middlePoint.position : Vector3.zero;
     protected virtual void Setup()
     {
         stats.currentHP = stats.maxHP;

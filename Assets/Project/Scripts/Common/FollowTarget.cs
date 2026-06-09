@@ -7,6 +7,11 @@ public class FollowTarget : MonoBehaviour
     [SerializeField]
     private bool x, y, z;
 
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
+    }
+
     private void Update()
     {
         if (target == null) return;
