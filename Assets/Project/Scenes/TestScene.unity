@@ -5613,6 +5613,7 @@ GameObject:
   - component: {fileID: 822556166}
   - component: {fileID: 822556165}
   - component: {fileID: 822556168}
+  - component: {fileID: 822556169}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5809,6 +5810,76 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &822556169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822556163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6376d7ac88a68d46a95a9d954f27efd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBase
+  stats:
+    level: 1
+    exp: 0
+    damage: 25
+    cooldownTime: 2.5
+    criticalChance: 0.05
+    criticalMultiplier: 2
+    currentHP: 100
+    maxHP: 100
+    evasion: 0.05
+--- !u!1 &1196239312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1196239314}
+  - component: {fileID: 1196239313}
+  m_Layer: 0
+  m_Name: EnemySpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1196239313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196239312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e504426eb1b71a409fc4e39dad833ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  tilemap: {fileID: 533508190860284836}
+  enemyPrefab:
+  - {fileID: 1775085164078844963, guid: 7e26ea6297fe4224da6e7c42862e3391, type: 3}
+  enemyCount: 10
+--- !u!4 &1196239314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196239312}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1547101373
 GameObject:
   m_ObjectHideFlags: 0
@@ -5955,6 +6026,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 04bab5a0ff515af4cad64238e065045f, type: 3}
+--- !u!1839735485 &533508190860284836 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 5289195589573457597, guid: 04bab5a0ff515af4cad64238e065045f, type: 3}
+  m_PrefabInstance: {fileID: 533508190860284835}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5963,3 +6039,4 @@ SceneRoots:
   - {fileID: 643116797}
   - {fileID: 533508190860284835}
   - {fileID: 822556164}
+  - {fileID: 1196239314}
