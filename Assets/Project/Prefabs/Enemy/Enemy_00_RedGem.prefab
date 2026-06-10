@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 14383525297401568}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.54, z: 0}
+  m_LocalPosition: {x: 0.08, y: 0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 6757637985973721513}
   - component: {fileID: 7152233838202159036}
   - component: {fileID: 2015955774305256526}
+  - component: {fileID: 7689735486799694515}
   m_Layer: 0
   m_Name: Enemy_00_RedGem
   m_TagString: Untagged
@@ -64,6 +65,7 @@ Transform:
   m_Children:
   - {fileID: 1906673823008601163}
   - {fileID: 9184064774405987212}
+  - {fileID: 1898620055566077276}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7152233838202159036
@@ -89,6 +91,8 @@ MonoBehaviour:
     maxHP: 133
     evasion: 0.05
   middlePoint: {fileID: 9184064774405987212}
+  hudPoint: {fileID: 1898620055566077276}
+  uiPrefab: {fileID: 7262644926301008828, guid: f98388a635134d2428a688b66076b104, type: 3}
 --- !u!70 &2015955774305256526
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -126,6 +130,51 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.55}
   m_Size: {x: 0.6, y: 0.9}
   m_Direction: 0
+--- !u!114 &7689735486799694515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775085164078844963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 941a18998ed509a45a416e754591d418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyFSM
+  projectilePrefab: {fileID: 5899836532957948571, guid: c998a4574f096c447a042fa2cc8729f4, type: 3}
+  projectileSpawnPoint: {fileID: 9184064774405987212}
+--- !u!1 &4472026183525923599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1898620055566077276}
+  m_Layer: 0
+  m_Name: HUDPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1898620055566077276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4472026183525923599}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6757637985973721513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5798985158401974590
 GameObject:
   m_ObjectHideFlags: 0
