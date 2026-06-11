@@ -285,3 +285,44 @@
 - 플레이어와 적의 데이터를 유연하게 관리하기 위한 스탯 클래스 구조를 학습한다.
 - 플레이어 기본 공격 스킬을 구현하기 위한 구조와 동작 흐름을 학습한다.
 - 학습한 내용을 프로젝트에 적용할 수 있는 방식으로 정리한다.
+---
+## 2026-06-11
+
+### 오늘 목표
+- 플레이어와 적의 데이터를 유연하게 관리하기 위한 스탯 클래스 구조 학습
+- 플레이어 기본 공격 스킬 구현을 위한 구조와 동작 흐름 학습
+- 어떤 방식으로 내 프로젝트에 적용할지 고민해보고 정리
+### 오늘 한 일
+- Stat 클래스를 통해 스탯 하나의 값과 기능을 분리해서 관리하는 방법을 학습했다.
+- EntityStats 구조를 통해 여러 Stat을 배열로 묶어 캐릭터의 능력치로 관리하는 방법을 확인했다.
+- EntityBase에서 현재 체력 초기화와 데미지 처리 흐름을 확인했다.
+- SkillSystem, SkillGad, ProjectileGad를 통해 기본 공격이 실행되는 흐름을 학습했다.
+- 피격 이펙트 자동 삭제와 데미지 텍스트 표시 구조를 확인했다.
+### 배운 내용
+- Stat 클래스는 단순한 숫자 변수가 아니라, 기본값, 보너스값, 최소값, 최대값을 함께 관리하는 스탯 전용 클래스다.
+- Value는 직접 저장되는 값이 아니라 defaultValue와 bonusValue를 더한 뒤 Clamp로 범위를 제한해 계산되는 읽기 전용 값이다.
+- DefaultValue가 변경되면 이전 값과 현재 값을 비교하고, 값이 실제로 변경되었을 때 이벤트를 호출할 수 있다.
+- EntityStats는 여러 Stat을 배열로 가지고 있으며, FirstOrDefault를 사용해 StatType이 일치하는 첫 번째 Stat을 검색할 수 있다.
+- CurrentHP는 실제 전투 중 변하는 현재 체력이고, StatType.HP로 찾는 HP Stat은 최대 체력 기준값으로 사용할 수 있다.
+- EntityBase의 Setup은 HP Stat의 Value를 CurrentHP에 대입해 현재 체력을 초기화한다.
+- TakeDamage는 CurrentHP.DefaultValue를 감소시키며, 이 과정에서 Stat의 Clamp 처리와 값 변경 이벤트가 함께 동작할 수 있다.
+- SkillSystem은 공격 가능 여부를 검사하고, SkillGad는 쿨타임과 데미지 계산을 담당한다.
+- ProjectileGad는 발사체를 목표 방향으로 이동시키고, 원래 타겟과 충돌했을 때 데미지 처리, 피격 이펙트, 데미지 텍스트 생성을 수행한다.
+- ParticleAutoDestroyer는 재생이 끝난 파티클 오브젝트를 자동으로 삭제하여 불필요한 오브젝트가 남지 않도록 한다.
+- UIDamageText는 데미지 숫자를 표시하고 위쪽으로 이동하면서 점점 투명해진 뒤 삭제되는 방식으로 피격 피드백을 제공한다.
+### 막힌 부분
+- Stat 클래스의 프로퍼티 문법과 이벤트 호출 흐름이 처음에는 직관적으로 이해되지 않았다.
+- EntityStats에서 FirstOrDefault를 사용해 StatType 기준으로 스탯을 검색하는 구조가 헷갈렸다.
+- CurrentHP와 StatType.HP로 찾는 HP Stat의 역할 차이를 구분하는 데 시간이 걸렸다.
+- 기본 공격 흐름에서 SkillSystem, SkillGad, ProjectileGad가 각각 어떤 책임을 가지는지 연결해서 이해하는 데 시간이 걸렸다.
+### 해결한 방법
+- Stat은 스탯 하나를 관리하고, EntityStats는 여러 Stat을 묶으며, EntityBase는 실제 전투 동작을 처리하는 구조로 역할을 나누어 정리했다.
+- FirstOrDefault는 stats 배열을 순회하면서 StatType이 일치하는 첫 번째 Stat을 반환하고, 없으면 null을 반환한다는 방식으로 이해했다.
+- HP Stat은 최대 체력 기준값, CurrentHP는 전투 중 변화하는 현재 체력으로 구분해서 정리했다.
+- 기본 공격 흐름을 SkillSystem → SkillGad → ProjectileGad → EntityBase.TakeDamage 순서로 나누어 이해했다.
+- 현재 코드 파악은 대부분 완료했지만, 구조가 익숙해지기까지는 실제 구현에 반복 적용하는 과정이 필요하다고 판단했다.
+### 내일 할 일
+- 버프 스킬을 추가하는 방법을 학습한다.
+- Stat의 BonusValue를 활용해 버프가 스탯에 영향을 주는 흐름을 확인한다.
+- 버프 적용, 지속 시간, 해제 처리 구조를 어떻게 분리할 수 있는지 정리한다.
+---
