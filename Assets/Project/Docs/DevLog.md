@@ -349,3 +349,47 @@
 - Stat 클래스의 역할을 다시 한번 복습
 - 버프 스킬 코드 흐름 다시 정리
 - 스킬 시스템의 구조 확인
+---
+## 2026-06-13
+
+### 오늘 목표
+- Stat 클래스와 스킬 시스템 예제 코드의 전체 흐름 복습
+- 코드 흐름을 따라가며 헷갈렸던 개념 정리
+### 오늘 한 일
+- Stat 클래스의 역할을 다시 상기했다.
+    - DefaultValue, BonusValue, Value의 역할 차이를 복습했다.
+    - Value가 단순 저장값이 아니라, 기본값과 보정값을 바탕으로 계산되는 최종값이라는 점을 다시 확인했다.
+    - HP는 최대 체력의 기준이 되는 스탯임을 다시 한번 확인했다.
+    - CurrentHP는 인게임에서 사용되는 현재 체력 상태값이다.
+- 스킬 시스템의 전체 동작 흐름을 코드 기준으로 파악했다.
+    - SkillTemplate은 스킬 데이터를 저장하는 역할을 한다는 점을 정리했다.
+    - buffStatList를 통해 스킬이 영향을 줄 스탯만 선택적으로 관리할 수 있다는 점을 확인했다.
+    - SkillBuff.OnLevelUp()에서 스킬 데이터에 저장된 증가량을 owner의 실제 Stat의 BonusValue에 적용하는 흐름을 확인했다.
+- SkillSystem, SkillGad, ProjectileGad의 주요 코드 흐름을 살펴봤다.
+    - SkillSystem의 skills는 습득 가능하거나 강화 가능한 전체 스킬의 런타임 객체를 관리하는 Dictionary로 이해했다.
+    - StartCoroutine(nameof(SpawnProjectile))에서 nameof가 메서드 이름을 문자열로 변환하는 역할임을 확인했다.
+    - LayerMask.NameToLayer("Enemy")와 비트 시프트를 통해 Enemy 레이어만 검사하는 LayerMask를 만드는 방식을 정리했다.
+### 배운 내용
+- Stat 클래스는 능력치를 단순한 숫자로 관리하는 것이 아니라, 기본값과 보정값을 분리하여 최종값을 계산하기 위한 구조다.
+- Value는 DefaultValue와 BonusValue가 반영된 최종값이므로, 버프나 성장으로 변할 수 있는 능력치의 기준값으로 사용된다.
+- CurrentHP와 HP는 모두 체력과 관련되어 있지만 성격이 다르다.
+    - CurrentHP는 현재 남아있는 체력 상태값이다.
+    - HP는 현재 체력이 넘지 말아야 할 최대 기준값이다.
+- SkillTemplate은 스킬의 고정 데이터를 저장하고, SkillBuff는 해당 데이터를 바탕으로 owner의 실제 스탯에 보정값을 적용한다.
+- 스킬 시스템은 캐릭터의 값을 직접 무작정 바꾸는 것이 아니라, Stat 구조를 통해 능력치에 영향을 주는 방식으로 동작한다.
+- LayerMask는 레이어 번호 자체가 아니라, 특정 레이어를 검사하기 위한 비트마스크 값으로 사용된다.
+### 막힌 부분
+- Stat 구조에서 DefaultValue와 Value가 각각 어떤 상황에서 사용되는지 헷갈렸다.
+- SkillBuff.OnLevelUp()에서 buffStatList의 Stat 값이 실제로 어느 대상의 BonusValue에 적용되는지 헷갈렸다.
+- SkillSystem의 skills가 습득한 스킬 목록인지, 전체 스킬 목록인지 구분이 필요했다.
+- nameof와 LayerMask 비트 시프트처럼 C# 문법과 Unity API가 함께 사용된 부분의 의미를 확인할 필요가 있었다.
+### 해결한 방법
+- Stat의 역할을 먼저 큰 틀에서 다시 정리한 뒤, DefaultValue, BonusValue, Value의 관계를 순서대로 복습했다.
+- SkillTemplate, SkillBuff, SkillSystem의 역할을 분리해서 정리했다.
+    - SkillTemplate은 스킬 데이터 원본이다.
+    - SkillBuff는 스킬 데이터에 저장된 값을 owner의 Stat.BonusValue에 적용한다.
+    - SkillSystem은 스킬 런타임 객체와 레벨 상태를 관리한다.
+- nameof는 문자열 기반 코루틴 호출에서 메서드 이름을 안전하게 가져오기 위한 방식으로 이해했다.
+- LayerMask는 특정 레이어 번호를 비트마스크로 변환하여 Physics2D 검색 필터로 사용하는 구조로 정리했다.
+### 내일 할 일
+- 프로젝트에 적용해 보기 위한 Stat 클래스 구현
