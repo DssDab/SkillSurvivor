@@ -393,3 +393,25 @@
 - LayerMask는 특정 레이어 번호를 비트마스크로 변환하여 Physics2D 검색 필터로 사용하는 구조로 정리했다.
 ### 내일 할 일
 - 프로젝트에 적용해 보기 위한 Stat 클래스 구현
+---
+## 2026-06-14
+
+### 오늘 목표
+- Stat 클래스를 포트폴리오 프로젝트의 체력 구조에 적용
+### 오늘 한 일
+- 예제의 Stat 구조를 프로젝트에 적용했다.
+- DefaultValue, BonusValue, Value를 분리해 스탯 값을 관리하도록 했다.
+- 데미지 처리 시 CurrentHP.DefaultValue를 수정하고, UI에서는 CurrentHP.Value를 읽어 체력바를 갱신하는 흐름을 확인했다.
+### 배운 내용
+- DefaultValue는 기본 스탯값, BonusValue는 버프나 스킬, 아이템으로 추가되는 보정 값이다.
+- Value는 DefaultValue와 BonusValue를 더한 뒤 Clamp가 적용된 최종 계산값이다.
+- Value는 읽기 전용이므로 값을 변경할 때는 DefaultValue나 BonusValue를 수정해야 한다.
+- CurrentHP는 인게임에서 계속 변하는 현재 체력의 상태값이므로, 현재 구조에서는 DefaultValue를 현재 체력 저장값처럼 사용한다.
+### 막힌 부분
+- CurrentHP의 Value와 DefaultValue를 통해서 값을 읽어올 수 있는데 CurrentHP의 경우 인게임에서 계속 변하는 현재 체력의 상태값이라 Value와 DefaultValue는 차이가 없어서 값을 읽어야 할 때 둘 중 뭘 써야할지 고민했다.
+- 예제 코드와 구조가 거의 같아 포트폴리오로서의 차별성이 부족하지 않을까 고민했다.
+### 해결한 방법
+- Value는 읽기 전용 속성이기 때문에 값을 읽어야 한다면 Value를 사용하고 값을 수정해야 할 때는 DefaultValue를 사용하기로 정리했다.
+- 현재 구현은 학습 기반의 1차 적용으로 보고, 추후 스킬/버프 시스템과 연결하면서 포트폴리오에 맞게 개선하기로 했다.
+### 내일 할 일
+- 기본 공격 스킬 구현

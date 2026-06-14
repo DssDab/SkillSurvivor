@@ -83,13 +83,43 @@ MonoBehaviour:
   stats:
     level: 1
     exp: 0
-    damage: 25
-    cooldownTime: 1.5
-    criticalChance: 0.05
-    criticalMultiplier: 2
-    currentHP: 133
-    maxHP: 133
-    evasion: 0.05
+    currentHP:
+      statType: 4
+      maxValue: 9999
+      minValue: 0
+      defaultValue: 100
+      bonusValue: 0
+    stats:
+    - statType: 0
+      maxValue: 9999
+      minValue: 1
+      defaultValue: 25
+      bonusValue: 0
+    - statType: 1
+      maxValue: 9999
+      minValue: 0.2
+      defaultValue: 1.5
+      bonusValue: 0
+    - statType: 2
+      maxValue: 1
+      minValue: 0
+      defaultValue: 0.05
+      bonusValue: 0
+    - statType: 3
+      maxValue: 9999
+      minValue: 1
+      defaultValue: 2
+      bonusValue: 0
+    - statType: 4
+      maxValue: 9999
+      minValue: 0
+      defaultValue: 100
+      bonusValue: 0
+    - statType: 5
+      maxValue: 0.9
+      minValue: 0
+      defaultValue: 0.05
+      bonusValue: 0
   middlePoint: {fileID: 9184064774405987212}
   hudPoint: {fileID: 1898620055566077276}
   uiPrefab: {fileID: 7262644926301008828, guid: f98388a635134d2428a688b66076b104, type: 3}

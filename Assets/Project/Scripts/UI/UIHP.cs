@@ -8,12 +8,17 @@ public class UIHP : MonoBehaviour
     [SerializeField]
     private EntityBase entity;
 
+    private void Awake()
+    {
+        if (entity != null)
+            entity.Stats.CurrentHP.OnValueChanged += UpdateHP;
+    }
     public void Setup(EntityBase entity)
     {
         this.entity = entity;
     }
-    private void Update()
+    private void UpdateHP(Stat stat, float prev, float current)
     {
-        image.fillAmount = entity.Stats.currentHP / entity.Stats.maxHP;
+        image.fillAmount = entity.Stats.CurrentHP.Value / entity.Stats.GetStat(StatType.HP).Value;
     }
 }
