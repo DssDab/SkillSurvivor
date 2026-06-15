@@ -16,6 +16,8 @@ public class UIHP : MonoBehaviour
     public void Setup(EntityBase entity)
     {
         this.entity = entity;
+        entity.Stats.CurrentHP.OnValueChanged += UpdateHP;
+
     }
     private void UpdateHP(Stat stat, float prev, float current)
     {
