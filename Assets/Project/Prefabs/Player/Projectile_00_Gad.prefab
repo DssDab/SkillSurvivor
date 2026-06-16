@@ -230,3 +230,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3b5925cd612ef48bbcbd81a655e61d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileGad
+  hitEffect: {fileID: 8888746007460285410, guid: 25f72fc28f874c148bb26a6de9395293, type: 3}
+  damageText: {fileID: 6942529767691285022, guid: ee6d6f140e700c6478a44f227f820ab2, type: 3}
