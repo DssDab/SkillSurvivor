@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SkillGad : MonoBehaviour
@@ -8,6 +9,7 @@ public class SkillGad : MonoBehaviour
     private float currentCooldownTime;
     private Transform spawnPoint;
     private PlayerBase owner;
+    private WaitForSeconds attackRate = new WaitForSeconds(0.05f);
 
     public void Setup(PlayerBase owner, Transform spawnPoint)
     {
@@ -21,11 +23,23 @@ public class SkillGad : MonoBehaviour
         if ( Time.time - currentCooldownTime >
             owner.Stats.GetStat(StatType.CooldownTime).Value)
         {
-            var result = CalculateDamage();
-            ProjectileGad gad = Instantiate(projectileGad, spawnPoint.position, Quaternion.identity);
-            gad.Setup(owner.Target, result.Item1, result.Item2);
+            StartCoroutine(nameof(SpawnProjectile));
 
             currentCooldownTime = Time.time;
+        }
+    }
+
+    private IEnumerator SpawnProjectile()
+    {
+        int projectileCount = 0;
+        while ( projectileCount < (int)owner.Stats.GetStat(StatType.ProjectileCount).Value)
+        {
+            var result = CalculateDamage();
+            ProjectileGad gad = Instantiate(projectileGad, spawnPoint.position, Quaternion.identity);
+            gad.Setup(owner, owner.Target, result.Item1, result.Item2);
+            projectileCount++;
+
+            yield return attackRate;
         }
     }
 

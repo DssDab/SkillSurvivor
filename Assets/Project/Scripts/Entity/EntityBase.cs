@@ -22,6 +22,10 @@ public class EntityBase : MonoBehaviour
     {
         if (IsDead) return;
 
+        // Evasion 스탯 확률로 회피
+        if (Random.value < stats.GetStat(StatType.Evasion).Value)
+            return;
+
         Stats.CurrentHP.DefaultValue -= damage;
 
         if( Mathf.Approximately(Stats.CurrentHP.Value, 0f) )

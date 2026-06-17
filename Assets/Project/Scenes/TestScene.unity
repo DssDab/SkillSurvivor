@@ -6080,6 +6080,21 @@ MonoBehaviour:
       minValue: 0
       defaultValue: 0.05
       bonusValue: 0
+    - statType: 6
+      maxValue: 3
+      minValue: 0
+      defaultValue: 0
+      bonusValue: 0
+    - statType: 7
+      maxValue: 9999
+      minValue: 0
+      defaultValue: 0
+      bonusValue: 0
+    - statType: 8
+      maxValue: 4
+      minValue: 1
+      defaultValue: 1
+      bonusValue: 0
   middlePoint: {fileID: 248279518}
   targetMask: {fileID: 1479144255}
 --- !u!70 &822556170

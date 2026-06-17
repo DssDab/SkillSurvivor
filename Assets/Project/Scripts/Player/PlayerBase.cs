@@ -17,6 +17,7 @@ public class PlayerBase : EntityBase
         if( Target == null ) targetMask.gameObject.SetActive( false );
 
         SearchTarget();
+        Recovery();
     }
 
     private void SearchTarget()
@@ -40,5 +41,14 @@ public class PlayerBase : EntityBase
             targetMask.transform.position = Target.transform.position;
             targetMask.gameObject.SetActive (true);
         }
+    }
+
+    private void Recovery()
+    {
+        // 체력 회복
+        if (Stats.CurrentHP.Value < Stats.GetStat(StatType.HP).Value)
+            Stats.CurrentHP.DefaultValue += Time.deltaTime * Stats.GetStat(StatType.HPRecovery).Value;
+        else
+            Stats.CurrentHP.DefaultValue = Stats.GetStat(StatType.HP).Value;
     }
 }
