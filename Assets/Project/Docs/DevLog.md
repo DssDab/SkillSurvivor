@@ -487,3 +487,41 @@
 ### 내일 할 일
 - 주 공격 스킬의 구현 방식을 학습한다.
 ---
+## 2026-06-18
+
+### 오늘 목표
+- 주 공격 스킬별 Projectile 생성 구조 학습
+- ProjectileBase를 기준으로 발사체 타입을 통일하는 방식 확인
+### 오늘 한 일
+ 주 공격 스킬이 각 공격 방식에 맞는 Projectile 프리팹을 생성하는 구조를 확인했다.
+- 공격 스킬 데이터가 SkillTemplate에서 관리되는 흐름을 확인했다.
+  - attackBaseStats
+  - attackBuffStats
+  - projectile
+- SkillBase에서 공격 스킬 공통 데이터를 초기화하는 흐름을 확인했다.
+- SkillEmission에서 쿨타임, 발사체 개수, 공격 주기에 따라 Projectile을 생성하는 구조를 확인했다.
+- ProjectileBase를 부모 클래스로 두고, 각 Projectile이 이를 상속받아 공통 타입으로 관리되는 구조를 확인했다.
+- Projectile 종류별 동작 차이를 확인했다.
+  - ProjectileStraight: 목표 방향으로 직선 이동
+  - ProjectileHoming: 목표를 추적하며 이동
+  - ProjectileLine: LineRenderer를 활용한 선형 공격
+  - ProjectileCubicHoming: CubicCurve를 활용한 곡선 추적 공격
+- ProjectileCollision2D에서 적 충돌, 데미지 적용, 피격 이펙트, 데미지 텍스트 생성, 충돌 후 제거 처리를 담당하는 것을 확인했다.
+- Utils에서 발사체 회전, 각도 계산, 곡선 이동에 필요한 보조 메서드를 사용하는 것을 확인했다.
+### 배운 내용
+- 주 공격 스킬이 직접 모든 발사체 동작을 처리하는 것이 아니라, Projectile 프리팹을 생성하고 실제 이동 방식은 각 Projectile 클래스가 담당하도록 분리할 수 있다.
+- ProjectileBase를 상속 구조의 기준으로 두면, 서로 다른 발사체도 공통 타입으로 다룰 수 있다.
+- 공통 초기화는 ProjectileBase에서 처리하고, 직선 이동, 추적 이동, 선형 공격, 곡선 이동 같은 개별 동작은 자식 클래스에서 처리할 수 있다.
+- SkillTemplate은 스킬의 고정 데이터와 Projectile 프리팹 정보를 가지고, SkillEmission은 해당 데이터를 바탕으로 실제 발사체를 생성하는 역할을 한다.
+### 막힌 부분
+- 주 공격 스킬, SkillEmission, ProjectileBase, 개별 Projectile 클래스 사이의 책임 분리가 아직 명확하게 정리되지 않았다.
+- ProjectileBase를 기준으로 타입을 통일하는 이유는 이해했지만, 실제 코드 흐름을 말로 설명하는 데는 아직 정리가 필요하다.
+- CubicCurve를 활용한 ProjectileCubicHoming의 이동 방식은 추가 복습이 필요하다.
+### 해결한 방법
+- 오늘은 전체 구조를 완전히 정리하기보다, 예제 스크립트에서 어떤 클래스가 어떤 역할을 하는지 확인하는 데 집중했다.
+- 개념 정리는 내일 다시 진행하기로 했다.
+### 내일 할 일
+- 주 공격 스킬 구조를 다시 복습한다.
+- SkillTemplate → SkillBase → SkillEmission → ProjectileBase → 개별 Projectile → ProjectileCollision2D 순서로 흐름을 정리한다.
+- ProjectileBase를 사용하는 이유와 각 Projectile 자식 클래스의 역할을 말로 설명할 수 있게 정리한다.
+---
