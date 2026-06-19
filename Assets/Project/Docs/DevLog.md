@@ -525,3 +525,35 @@
 - SkillTemplate → SkillBase → SkillEmission → ProjectileBase → 개별 Projectile → ProjectileCollision2D 순서로 흐름을 정리한다.
 - ProjectileBase를 사용하는 이유와 각 Projectile 자식 클래스의 역할을 말로 설명할 수 있게 정리한다.
 ---
+## 2026-06-19
+
+### 오늘 목표
+- 어제 학습한 스킬 발사체 예제 코드의 전체 흐름 이해
+- SkillBase, ProjectileBase, ProjectileCollision2D의 역할 구분
+- 발사체 이동과 충돌 처리 구조 정리
+### 오늘 한 일
+- SkillSystem, SkillBase, SkillEmission, ProjectileBase, ProjectileCollision2D의 역할을 흐름 중심으로 다시 확인했다.
+- SkillSystem은 플레이어가 보유한 스킬들을 생성, 관리, 실행, 레벨업 요청하는 관리자 역할을 한다는 점을 정리했다.
+- SkillBase는 모든 스킬이 공통으로 가져야 하는 데이터와 기능을 정의하는 부모 클래스이며, 스킬들을 공통 타입으로 관리하기 위한 구조라는 점을 확인했다.
+- SkillEmission은 공격 스킬 실행 시 발사체를 생성하고, 생성된 발사체를 ProjectileBase 타입으로 다루는 흐름을 확인했다.
+- ProjectileBase는 발사체의 공통 데이터와 실행 흐름을 제공하는 부모 클래스이며, 실제 이동 방식은 ProjectileStraight, ProjectileHoming 같은 자식 클래스에서 구현된다는 점을 정리했다.
+- ProjectileCollision2D는 발사체의 이동이 아니라 충돌 감지 이후 대상 확인과 데미지 적용을 담당하는 클래스라는 점을 확인했다.
+- ProjectileStraight와 ProjectileHoming의 차이를 비교하며, 직선 이동과 타겟 추적 이동의 차이를 정리했다.
+- Mathf.Atan2가 방향 벡터의 x, y 값을 이용해 각도를 구하고, Unity 회전값에 적용하기 위해 Rad2Deg로 degree 단위 변환이 필요하다는 점을 확인했다.
+### 배운 내용
+- 스킬과 발사체는 각각 SkillBase, ProjectileBase를 통해 공통 타입으로 관리할 수 있다.
+- 부모 클래스 타입으로 다루면 구체적인 자식 클래스에 직접 의존하지 않고, 공통 흐름으로 여러 스킬과 발사체를 처리할 수 있다.
+- SkillSystem은 여러 스킬을 관리하는 시스템이고, SkillBase는 개별 스킬의 공통 구조를 정의하는 부모 클래스다.
+- ProjectileBase는 발사체의 공통 구조를 제공하고, 실제 이동 방식은 자식 발사체 클래스에서 구현한다.
+- ProjectileCollision2D는 발사체의 충돌 판정과 충돌 이후 데미지 처리를 분리하기 위한 클래스다.
+- Mathf.Atan2는 방향 벡터를 회전 각도로 변환하기 위해 사용하며, 반환값이 라디안이기 때문에 Unity 회전에 사용하려면 degree 단위로 변환해야 한다.
+### 막힌 부분
+- 처음에는 ProjectileBase와 ProjectileCollision2D의 역할 범위가 명확하게 구분되지 않았다.
+- ProjectileHoming, ProjectileCubicHoming처럼 수학 개념이 들어가는 스크립트는 방향 벡터, 각도 계산, 보간 개념 때문에 흐름 파악이 어려웠다.
+### 해결한 방법
+- 스크립트를 파일별로 따로 보지 않고, 스킬 실행 후 발사체가 생성되고 충돌하는 흐름으로 다시 정리했다.
+- SkillSystem, SkillBase, SkillEmission, ProjectileBase, ProjectileCollision2D의 책임을 나누어 비교했다.
+- 발사체 이동 방식과 충돌 처리를 분리해서 보면서, ProjectileBase와 ProjectileCollision2D의 역할 차이를 정리했다.
+- Mathf.Atan2는 방향 벡터를 각도로 변환하기 위한 함수이고, Rad2Deg를 통해 Unity 회전값에 맞게 변환해야 한다는 점을 확인했다.
+### 내일 할 일
+- 보조공격에 대한 학습을 진행한다.
