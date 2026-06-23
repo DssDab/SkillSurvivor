@@ -108,3 +108,6 @@ InitTestScene*.unity*
 # custom Assets
 /[Aa]ssets/[Pp]roject/[Ss]prites/
 /[Aa]ssets/[Pp]roject/[Ff]onts/
+/[Aa]ssets/[Pp]roject/[Mm]aterials
+/[Aa]ssets/[Pp]roject/[Pp]refabs
+/[Aa]ssets/[Pp]roject/[Rr]esources

@@ -19,7 +19,18 @@ public class Stat
     [SerializeField]
     private float bonusValue;               // 아이템, 스킬 등으로 증가하는 추갓값
 
+    public void CopyData(Stat newStat)
+    {
+        statType = newStat.statType;
+        maxValue = newStat.MaxValue;
+        minValue = newStat.MinValue;
+        defaultValue = newStat.DefaultValue;
+        bonusValue = newStat.BonusValue;
+    }
+
     public StatType StatType => statType;
+    public float MaxValue => maxValue;  
+    public float MinValue => minValue;
     public float Value => Mathf.Clamp(defaultValue + bonusValue, minValue, maxValue);
 
     public float DefaultValue

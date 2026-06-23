@@ -1,10 +1,14 @@
+using System.Linq;
 using UnityEngine;
 
 public abstract class SkillBase
 {
     protected SkillTemplate skillTemplate;      // 스킬 정보
     protected PlayerBase owner;                 // 스킬 소유자
+    protected Transform spawnPoint;             // 스킬 발사 위치
     protected int currentLevel = 0;             // 현재 스킬 레벨
+    protected float currentCooldownTime = 0;
+    protected bool isSkillAvailable = false;
 
     // 외부에서 접근할 스킬 정보를 Get 속성으로 정의
     public string SkillName => skillTemplate.skillName;
@@ -14,10 +18,28 @@ public abstract class SkillBase
     public int CurrentLevel => currentLevel;
     public bool IsMaxLevel => currentLevel == skillTemplate.maxLevel;
 
-    public virtual void Setup(SkillTemplate skillTemplate, PlayerBase owner)
+    // 공격 스킬 전용(공격력, 쿨타임, 발사체 개수와 같은 스탯)
+    private Stat[] stats;
+    public Stat GetStat(Stat stat)
+        => stats.FirstOrDefault(s => s.StatType == stat.StatType);
+    public Stat GetStat(StatType statType)
+        => stats.FirstOrDefault(s => s.StatType == statType);
+    public virtual void Setup(SkillTemplate skillTemplate, PlayerBase owner, Transform spawnPoint=null)
     {
         this.skillTemplate = skillTemplate;
         this.owner = owner;
+        this.spawnPoint = spawnPoint;
+
+        // 공격 스킬이라면 필요한 스탯 설정(공격력, 쿨타임, 발사체 개수 등)
+        if(SkillType != SkillType.Buff)
+        {
+            stats = new Stat[skillTemplate.attackBaseStats.Count];
+            for(int i=0; i < stats.Length; i++)
+            {
+                stats[i] = new Stat();
+                stats[i].CopyData(skillTemplate.attackBaseStats[i]);
+            }
+        }
     }
 
     public void TryLevelUp()
@@ -32,6 +54,18 @@ public abstract class SkillBase
 
         OnLevelUp();
 
+    }
+
+    public void IsSkillAvailable()
+    {
+        // 레벨이 0이거나 버프 또는 지속 스킬이라면 사용할 수 있는 상태 아님
+        if (currentLevel == 0 || SkillType == SkillType.Buff)
+            return;
+
+        if(Time.time - currentCooldownTime > GetStat(StatType.CooldownTime).Value)
+        {
+            isSkillAvailable = true;
+        }
     }
     public abstract void OnLevelUp();       // 스킬 레벨업 시 1회 호출
     public abstract void OnSkill();         // 스킬 사용 시 호출
