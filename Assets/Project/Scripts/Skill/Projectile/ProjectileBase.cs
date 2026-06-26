@@ -4,6 +4,8 @@ public abstract class ProjectileBase : MonoBehaviour
 {
     protected MovementRigidbody2D movement2D;
 
+    public virtual void Setup(SkillBase skillBase, float damage) { }
+
     public virtual void Setup(EntityBase target, float damage)
     {
         movement2D = GetComponent<MovementRigidbody2D>();

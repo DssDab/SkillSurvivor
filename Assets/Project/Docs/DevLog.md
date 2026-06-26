@@ -735,3 +735,42 @@
 - 전역 스킬 예제를 프로젝트에 적용한다.
 - 전역 스킬이 기존 스킬 시스템에서 어떤 방식으로 생성되고 실행되는지 확인한다.
 - 전역 스킬의 공격 범위, 데미지 처리, 실행 흐름을 확인한다.
+---
+## 2026-06-26
+
+### 오늘 목표
+- 전 범위 타격 스킬과 유도 공격 패턴 스킬 예제를 프로젝트에 적용하고, 각 스킬의 특성과 구조를 확인한다.
+- 스킬 생성, 실행, 발사체 처리 흐름을 따라가며 추후 직접 구조를 설계하기 위한 기반을 다진다.
+### 오늘 한 일
+- 전역 공격 스킬을 처리하기 위한 SkillGlobal 스크립트를 추가했다.
+- 전역 공격 발사체의 공통 부모 역할을 하는 ProjectileGlobal 스크립트를 추가했다.
+- ProjectileGlobal을 상속받는 전역 공격 스킬 발사체들을 추가했다.
+    - ProjectileBlizzard
+    - ProjectileLightningStrike
+    - ProjectileFireDragon
+    - ProjectileTornado
+    - ProjectileVoid
+- SkillTemplate, SkillSystem, SkillBase, ProjectileBase, Stat 스크립트를 수정했다.
+- SkillSystem에서 SkillType.Global 타입의 스킬을 SkillGlobal로 생성하도록 흐름을 추가했다.
+- SkillGlobal에서 쿨타임이 준비되면 스킬 프리팹을 생성하고, ProjectileGlobal.Setup()을 통해 데미지 정보를 전달하도록 구현했다.
+### 배운 내용
+- 전역 공격 스킬은 SkillGlobal이 공통 실행 흐름을 담당하고, 실제 공격 방식은 ProjectileGlobal을 상속받은 개별 발사체 클래스에서 처리하는 구조로 분리할 수 있다.
+- ProjectileGlobal은 ProjectileBase를 상속받아 발사체의 공통 기능을 유지하면서, 전역 공격 스킬에 필요한 지속 시간, 데미지, 피격 이펙트, 데미지 텍스트 생성 흐름을 공통으로 관리한다.
+- ProjectileBlizzard는 플레이어 주변에 유지되며 일정 주기마다 범위 내 적에게 피해를 주는 지속형 전역 공격 구조로 구현되었다.
+- ProjectileLightningStrike는 필드의 적 위치에 즉시 공격 이펙트를 생성하고 피해를 주는 즉발형 전역 공격 구조로 구현되었다.
+- ProjectileFireDragon은 적 목록을 기준으로 공격 처리 순서를 관리하며, 공격 오브젝트가 이동하면서 적에게 피해를 주는 방식으로 구현되었다.
+- ProjectileTornado는 목표를 추적하다가 대상이 사라지면 새로운 대상을 탐색하는 유도형 공격 구조로 구현되었다.
+- ProjectileVoid는 목표 방향으로 이동하면서 일정 주기마다 원형으로 발사체를 생성하는 방사형 공격 구조로 구현되었다.
+- 같은 전역 공격 스킬이라도 생성 위치, 대상 탐색 방식, 피해 적용 시점, 지속 시간 처리 방식에 따라 서로 다른 공격 패턴을 만들 수 있다는 점을 확인했다.
+### 막힌 부분
+- ProjectileFireDragon의 Process()에서 entities[0]이 null일 때 entities.RemoveAt(0)을 실행하는 이유가 처음에는 명확하게 이해되지 않았다.
+### 해결한 방법
+- `entities`는 시전 시점의 적 목록을 복사한 것이므로, 0번 대상이 다른 공격으로 사망해 `null`이 되면 해당 요소를 제거해 다음 대상을 처리하도록 한다.
+### 개인 메모
+- ProjectileGlobal은 ProjectileBase를 상속받고, 전역 공격과 유도 공격 스킬은 다시 ProjectileGlobal을 상속받는 구조로 확장되었다.
+- 단순히 예제를 따라 적용하는 것보다, 어떤 로직을 부모 클래스에 두고 어떤 로직을 자식 클래스에서 처리하는지 구분하는 것이 중요하다고 느꼈다.
+### 내일 할 일
+- 각 스킬들의 레벨 합계에 따라서 자동으로 보너스를 얻도록 하는 방법을 학습한다.
+- 습득 가능한 모든 스킬 목록을 UI로 구현하는 방법을 학습한다.
+- 학습 내용을 바탕으로 이후 작업에서 헷갈리지 않도록 흐름과 내용을 파악한다.
+---
