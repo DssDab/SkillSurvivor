@@ -16,6 +16,7 @@ public class ProjectileCollision2D : MonoBehaviour
     private bool isIgnoreWall = false;
 
     private EntityBase target;
+    [SerializeField]
     private float damage;
     
     public void Setup(EntityBase target, float damage)
