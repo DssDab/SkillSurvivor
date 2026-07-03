@@ -10,6 +10,10 @@ public class SkillSystem : MonoBehaviour
     private Transform skillSpawnPoint;
     [SerializeField]
     private UISkillList uiSkillList;
+    [SerializeField]
+    private UISelectSkill uiSelectSkill;
+    [SerializeField]
+    private GameController gameController;
 
     private PlayerBase owner;
 
@@ -63,7 +67,7 @@ public class SkillSystem : MonoBehaviour
     {
         // 레벨업 가능한 임의 스킬 3개를 선택하고 그 중 하나 레벨업 [Debug Test]
         if (UnityEngine.InputSystem.Keyboard.current.digit1Key.wasPressedThisFrame)
-            SelectSkill();
+            StartSelectSkill();
 
         // 모든 공격 스킬 업데이트
         foreach(var item in skills)
@@ -107,7 +111,7 @@ public class SkillSystem : MonoBehaviour
         }
     }
 
-    public void SelectSkill()
+    public void StartSelectSkill()
     {
         // 습득 또는 레벨업 할 수 있는 임의의 3개 스킬 선택
         var randomSkills = GetRandomSkills(skills, 3);
@@ -117,9 +121,18 @@ public class SkillSystem : MonoBehaviour
             return;
         }
 
-        // 스킬 선택 UI가 없으므로 임시로 스킬 습득 처리
-        int index = Random.Range(0, randomSkills.Count);
-        LevelUp(randomSkills[index]);
+        // 스킬 선택 중에는 일시 정지
+        gameController.SetTimeScale(0);
+
+        // 획득 가능한 3개의 스킬 정보를 UI에 출력
+        uiSelectSkill.StartSelectSkillUI(this, randomSkills.ToArray());
+    }
+
+    public void EndSelectSkill(SkillBase skill)
+    {
+        LevelUp(skill);                     // {skill} 스킬 레벨업
+        uiSelectSkill.EndSelectSkillUI();   // 스킬 선택 UI 비활성화
+        gameController.SetTimeScale(1);     // 게임 다시 시작
     }
 
     private List<SkillBase> GetRandomSkills(Dictionary<string, SkillBase> skills, int count=3)
