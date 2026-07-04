@@ -20,6 +20,9 @@ public class SkillSystem : MonoBehaviour
     private Dictionary<string, SkillBase> skills = new Dictionary<string, SkillBase>();
     private Dictionary<SkillElement, int> elementalCounts = new Dictionary<SkillElement, int>();
     private Dictionary<SkillElement, SkillBase> elementalSkills = new Dictionary<SkillElement, SkillBase>();
+
+    public bool IsSelectSkill { get; private set; } = false;
+
     private void Awake()
     {
         owner = GetComponent<PlayerBase>();
@@ -113,6 +116,7 @@ public class SkillSystem : MonoBehaviour
 
     public void StartSelectSkill()
     {
+        IsSelectSkill = true;
         // 습득 또는 레벨업 할 수 있는 임의의 3개 스킬 선택
         var randomSkills = GetRandomSkills(skills, 3);
         if(randomSkills == null)
@@ -133,6 +137,7 @@ public class SkillSystem : MonoBehaviour
         LevelUp(skill);                     // {skill} 스킬 레벨업
         uiSelectSkill.EndSelectSkillUI();   // 스킬 선택 UI 비활성화
         gameController.SetTimeScale(1);     // 게임 다시 시작
+        IsSelectSkill = false;
     }
 
     private List<SkillBase> GetRandomSkills(Dictionary<string, SkillBase> skills, int count=3)

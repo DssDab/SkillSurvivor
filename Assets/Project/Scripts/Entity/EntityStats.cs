@@ -4,11 +4,10 @@ using UnityEngine;
 [System.Serializable]
 public struct EntityStats
 {
-    [Header("Level, Exp")]
-    public int level;       // 레벨
-    public long exp;        // 경험치
 
-    [Header("Current HP")]
+    [Header("Current Stats")]
+    [SerializeField]
+    private Stat currentExp;
     [SerializeField]
     private Stat currentHP;
 
@@ -16,6 +15,7 @@ public struct EntityStats
     [SerializeField]
     private Stat[] stats;
 
+    public readonly Stat CurrentEXP => currentExp;
     public readonly Stat CurrentHP => currentHP;
     public readonly Stat GetStat(Stat stat) =>
         stats.FirstOrDefault(s => s.StatType == stat.StatType);
