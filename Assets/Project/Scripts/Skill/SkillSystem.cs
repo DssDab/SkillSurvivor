@@ -116,7 +116,7 @@ public class SkillSystem : MonoBehaviour
 
     public void StartSelectSkill()
     {
-        IsSelectSkill = true;
+        
         // 습득 또는 레벨업 할 수 있는 임의의 3개 스킬 선택
         var randomSkills = GetRandomSkills(skills, 3);
         if(randomSkills == null)
@@ -124,6 +124,8 @@ public class SkillSystem : MonoBehaviour
             Logger.Log("더 이상 습득할 수 있는 스킬이 없습니다.");
             return;
         }
+
+        IsSelectSkill = true;
 
         // 스킬 선택 중에는 일시 정지
         gameController.SetTimeScale(0);

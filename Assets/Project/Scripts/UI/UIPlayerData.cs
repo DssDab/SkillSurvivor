@@ -20,4 +20,8 @@ public class UIPlayerData : MonoBehaviour
         textLevel.text = $"Lv.{entity.Stats.GetStat(StatType.Level).Value}";
         fillGaugeEXP.fillAmount = entity.Stats.CurrentEXP.Value / entity.Stats.GetStat(StatType.Experience).Value;
     }
+    private void OnDestroy()
+    {
+        entity.Stats.CurrentEXP.OnValueChanged -= UpdateEXP;
+    }
 }
