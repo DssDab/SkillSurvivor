@@ -1009,3 +1009,42 @@
 ### 내일 할 일
 - 메모리 풀링 예제를 프로젝트에 적용해보고 흐름을 확인한다.
 ---
+## 2026-07-05
+
+### 오늘 목표
+- 메모리 풀을 활용해 적 처치 시 생성되는 재화 이펙트를 관리하고, 재화 획득 흐름과 UI 갱신 흐름을 프로젝트에 적용한다.
+- 예제 기반 구조를 실제 프로젝트에 적용하면서 재화 생성, 이동, 획득, 풀 반환 흐름을 확인한다.
+### 오늘 한 일
+- 적 처치 시 재화 획득 이펙트를 생성하는 흐름을 추가했다.
+- GemCollector에서 MemoryPool을 사용해 재화 이펙트 오브젝트를 생성하고 반환하도록 구성했다.
+- GemCollectEffect에서 재화 오브젝트가 UI 아이콘 방향으로 이동하며 획득되는 시각적 피드백을 구현했다.
+- 재화 획득 시 PlayerBase의 GEM 값을 증가시키고, UIPlayerData에서 보유 재화 수치를 갱신하도록 연결했다.
+- FadeEffect를 사용해 재화 이펙트가 이동하는 동안 서서히 사라지는 흐름을 적용했다.
+- 일반 적 처치와 GlobalSkill 처치 상황에서 재화 생성, 획득, UI 갱신 흐름을 테스트했다.
+### 배운 내용
+- 메모리 풀은 오브젝트를 새로 생성하고 제거하는 대신, 미리 생성한 오브젝트를 활성화/비활성화하며 재사용하는 구조다.
+- 풀링 오브젝트의 상태값과 실제 GameObject 활성 상태가 일치해야 안정적으로 재사용할 수 있다.
+- IsActive 프로퍼티처럼 setter 내부에 GameObject.SetActive() 호출이 포함된 경우, 필드를 직접 수정하면 실제 오브젝트 활성 상태가 변경되지 않는다.
+- 풀로 반환된 오브젝트가 실제로 비활성화되지 않으면 Update가 계속 호출될 수 있고, 같은 획득 처리가 반복 실행될 수 있다.
+- ActiveCount는 현재 활성화된 풀 오브젝트 수를 추적하는 값이므로, 오브젝트의 실제 활성 상태와 어긋나면 풀 확장과 재사용 흐름이 꼬일 수 있다.
+- GlobalSkill처럼 여러 적을 동시에 처치하는 흐름에서는 SpawnGemEffect() 호출이 짧은 시간에 몰리기 때문에, 풀 상태 관리 문제가 더 빠르게 드러날 수 있다.
+- Screen Space - Overlay Canvas의 UI 위치를 RectTransformUtility로 변환할 때는 카메라 참조가 필요한 상황과 null을 넘겨야 하는 상황을 구분해야 한다.
+### 막힌 부분
+- 재화 획득 후 AddGem(), UpdateGEM() 호출 시 Invalid worldAABB 에러가 발생했다.
+- GlobalSkill로 적을 처치했을 때 GemCollectEffect.Setup() 호출 흐름에서 NullReferenceException이 발생했다.
+- Inspector 참조는 정상적으로 연결되어 있었지만, 재화 오브젝트의 생성과 반환 흐름 중 어떤 부분에서 문제가 발생하는지 바로 파악하기 어려웠다.
+### 해결한 방법
+- MemoryPool.DeactivatePoolItem()에서 풀 오브젝트를 반환할 때 IsActive 프로퍼티가 아니라 isActive 필드를 직접 수정하고 있던 문제를 확인했다.
+- isActive 필드를 직접 수정하면 GameObject.SetActive(false)가 호출되지 않아 재화 오브젝트가 실제로 비활성화되지 않는 문제가 있었다.
+- 비활성화되지 않은 재화 오브젝트의 Update가 계속 실행되면서 OnGemCollect()가 반복 호출되었고, 이로 인해 재화 수치가 비정상적으로 증가했다.
+- 활성 상태의 오브젝트가 tempPosition인 float.MaxValue 위치로 이동하면서 Renderer bounds 계산 과정에서 Invalid worldAABB 에러가 발생한 것으로 확인했다.
+- DeactivatePoolItem()에서 poolItem.IsActive = false를 사용하도록 수정해 풀 반환 시 GameObject가 정상적으로 비활성화되도록 했다.
+- 수정 후 일반 적 처치, GlobalSkill 처치, 재화 획득, UI 갱신 흐름을 다시 테스트했고 이상 없이 동작하는 것을 확인했다.
+### 개인 메모
+- MemoryPool.cs의 DestroyObjects()에서 Destroy() 후 poolItemList를 Clear()할 예정이라면 poolItemList[i].isActive = false 처리는 생략해도 될 것으로 보인다. DestroyObjects()는 재사용을 위한 비활성화가 아니라 풀 오브젝트를 제거하고 리스트를 초기화하는 흐름이기 때문에, 이후 다시 사용하지 않을 상태값을 갱신할 필요는 크지 않다.
+- GemCollectEffect.cs의 UpdateEndPoint()는 UI 아이콘 위치를 화면 좌표로 변환한 뒤, 다시 RectTransform 기준의 월드 좌표로 변환해 재화 오브젝트의 도착 지점을 갱신하는 흐름이다.
+- RectTransformUtility.WorldToScreenPoint(Camera cam, Vector3 worldPoint)의 첫 번째 매개변수는 Canvas의 Render Mode에 따라 다르게 설정해야 한다. Screen Space - Overlay는 카메라를 사용하지 않고 화면에 직접 렌더링되므로 null을 전달하고, Screen Space - Camera나 World Space에서는 Canvas에 등록된 카메라 또는 해당 UI를 바라보는 카메라를 전달한다.
+- 이때 null은 MainCamera를 자동으로 할당한다는 의미가 아니라, Screen Space - Overlay에서는 카메라가 필요 없기 때문에 사용하는 값으로 이해하는 것이 맞다.
+### 내일 할 일
+- NavMesh2D를 활용하여 장애물 회피와 길 찾는 예제를 학습한다.
+---

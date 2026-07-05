@@ -9,6 +9,8 @@ public class UIPlayerData : MonoBehaviour
     [SerializeField]
     private Image fillGaugeEXP;
     [SerializeField]
+    private TextMeshProUGUI textGEMCount;
+    [SerializeField]
     private PlayerBase entity;
 
     private void Awake()
@@ -19,6 +21,10 @@ public class UIPlayerData : MonoBehaviour
     {
         textLevel.text = $"Lv.{entity.Stats.GetStat(StatType.Level).Value}";
         fillGaugeEXP.fillAmount = entity.Stats.CurrentEXP.Value / entity.Stats.GetStat(StatType.Experience).Value;
+    }
+    public void UpdateGEM()
+    {
+        textGEMCount.text = entity.GEM.ToString();
     }
     private void OnDestroy()
     {

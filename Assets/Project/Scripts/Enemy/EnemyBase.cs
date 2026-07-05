@@ -6,8 +6,11 @@ public class EnemyBase : EntityBase
     private Transform hudPoint;
     [SerializeField]
     private GameObject uiPrefab;
+    [SerializeField]
+    private int gemMin = 5, gemMax = 21;
 
     private EnemySpawner enemySpawner;
+    private GemCollector gemcollector;
 
     private void Awake()
     {
@@ -22,9 +25,11 @@ public class EnemyBase : EntityBase
         base.Setup();
     }
 
-    public void Initialize(EnemySpawner enemySpawner, Transform parent)
+    public void Initialize(EnemySpawner enemySpawner, Transform parent, GemCollector gemCollector)
     {
         this.enemySpawner = enemySpawner;
+        this.gemcollector = gemCollector;
+
         GameObject clone = Instantiate(uiPrefab, parent);
         clone.transform.localScale = Vector3.one;
         clone.GetComponent<FollowTargetUI>().Setup(hudPoint);
@@ -32,6 +37,9 @@ public class EnemyBase : EntityBase
     }
     public override void OnDie()
     {
+        // 임의의 개수(gemMin ~ gemMax-1)만큼 보석 생성
+        gemcollector.SpawnGemEffect(transform.position, Random.Range(gemMin, gemMax));
+
         // 적은 레벨업 하지 않으므로 적 경험치 스탯만큼 플레이어 경험치 증가
         (Target as PlayerBase).AccumulationExp += Stats.CurrentEXP.Value;
         // 적 본인(this) 사망 처리

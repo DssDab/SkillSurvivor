@@ -14,6 +14,9 @@ public class PlayerBase : EntityBase
     // 스킬 사용 등 여러 곳에서 필요하므로 public 속성으로 정의
     public bool IsMoved { get; set; } = false;
     public float AccumulationExp { get; set; } = 0f;
+    // 현재 스테이지에서 획득한 보석 개수
+    public int GEM { get; private set; } = 0;
+    
     private void Awake()
     {
         base.Setup();
@@ -99,5 +102,8 @@ public class PlayerBase : EntityBase
         // 레벨업 할 때 스킬을 선택할 수 있도록 스킬 선택 팝업 창 출력
         skillSystem.StartSelectSkill();
     }
-    
+    public void AddGem()
+    {
+        GEM++;
+    }
 }

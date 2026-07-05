@@ -14,6 +14,8 @@ public class EnemySpawner : MonoBehaviour
     private Transform parentTransform;
     [SerializeField]
     private EntityBase target;
+    [SerializeField]
+    private GemCollector gemCollector;
 
     private Vector3 offset = new Vector3(0.5f, 0.5f, 0);
     private List<Vector3> possibleTiles = new List<Vector3>();
@@ -33,7 +35,7 @@ public class EnemySpawner : MonoBehaviour
             int index = Random.Range(0, possibleTiles.Count);
 
             GameObject clone = Instantiate(enemyPrefab[type], possibleTiles[index], Quaternion.identity, transform);
-            clone.GetComponent<EnemyBase>().Initialize(this, parentTransform);
+            clone.GetComponent<EnemyBase>().Initialize(this, parentTransform, gemCollector);
             clone.GetComponent<EnemyFSM>().Setup(target);
             Enemies.Add(clone.GetComponent<EntityBase>());
         }
