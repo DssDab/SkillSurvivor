@@ -1171,3 +1171,26 @@ JSON 직력화를 통해 게임 데이터를 저장하고 불러오는 방법을
 - NavMesh2D를 활용한 길 찾기를 프로젝트에 적용
 - BT를 이용한 적 상태 전환을 프로젝트에 적용
 ---
+## 2026-07-10
+
+### 오늘 목표
+- NavMesh를 활용하여 적 장애물 회피, 이동을 적용한다.
+### 오늘 한 일
+- 적 오브젝트에 NavMeshAgent를 추가했다.
+- 2D 환경에서 사용할 수 있도록 회전과 Up Axis 자동 갱신을 비활성화했다.
+- 게임 시작 시 플레이어의 위치를 목적지로 지정하여 적이 NavMesh 경로를 따라 이동하도록 임시 적용했다.
+### 배운 내용
+- Navigation Surface와 NavMeshCollectSources2d를 활용해 Tilemap, Sprite, Collider2D 등의 정보를 수집하고, 적이 이동할 수 있는 NavMesh 경로 데이터를 생성하는 흐름을 확인했다.
+- 기본 설정과 다르게 처리할 오브젝트에는 Navigation Modifier 컴포넌트를 추가하고, Override Area를 활성화해 Walkable, Not Walkable 등의 Area Type을 지정할 수 있다는 것을 확인했다.
+- 오브젝트와 Navigation 설정을 마친 뒤 Navigation Surface에서 Bake를 실행하면 현재 맵 구조를 기준으로 NavMesh 데이터가 생성된다는 것을 확인했다.
+- 맵의 지형, 충돌 영역 또는 Navigation Modifier 설정이 변경되면 변경된 구조가 반영되도록 NavMesh를 다시 Bake해야 한다는 것을 확인했다.
+- NavMeshAgent가 Transform의 방향을 자동으로 갱신하지 않도록 updateRotation을 비활성화하고, 2D XY 평면에서 에이전트가 NavMesh의 Up Axis에 맞춰 정렬되지 않도록 updateUpAxis도 비활성화해야 한다는 것을 확인했다.
+### 막힌 부분
+- 없음.
+### 해결한 방법
+- 없음.
+### 개인 메모
+- 없음.
+### 내일 할 일
+- 행동 트리를 활용해 적의 상태를 유기적으로 제어하는 구조를 프로젝트에 적용한다.
+---

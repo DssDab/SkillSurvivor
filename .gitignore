@@ -106,6 +106,7 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ss]ceneDependencyCache*
 
 # custom Assets
+/[Aa]ssets/[Pp]roject/[Cc]ustomAssets
 /[Aa]ssets/[Pp]roject/[Ss]prites/
 /[Aa]ssets/[Pp]roject/[Ff]onts/
 /[Aa]ssets/[Pp]roject/[Mm]aterials

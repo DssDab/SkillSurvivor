@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 public enum EnemyState { None = -1, Attack, }
@@ -9,6 +10,8 @@ public class EnemyFSM : MonoBehaviour
     private GameObject projectilePrefab;
     [SerializeField]
     private Transform projectileSpawnPoint;
+    [SerializeField]
+    private NavMeshAgent navMeshAgent;  // 적 이동 경로 설정과 이동 제어
 
     private EnemyBase owner;
     private EnemyState enemyState;
@@ -16,6 +19,10 @@ public class EnemyFSM : MonoBehaviour
     private void Awake()
     {
         owner = GetComponent<EnemyBase>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+
+        navMeshAgent.updateRotation = false;
+        navMeshAgent.updateUpAxis = false;
 
         ChangeState(EnemyState.Attack);
     }
@@ -23,6 +30,9 @@ public class EnemyFSM : MonoBehaviour
     public void Setup(EntityBase target)
     {
         owner.Target = target;
+
+        // [Debuug Test] 게임이 시작된 순간의 플레이어 위치로 이동
+        navMeshAgent.SetDestination(target.MiddlePoint);
     }
 
     public void ChangeState(EnemyState newState)
