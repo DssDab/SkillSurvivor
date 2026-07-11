@@ -1194,3 +1194,40 @@ JSON 직력화를 통해 게임 데이터를 저장하고 불러오는 방법을
 ### 내일 할 일
 - 행동 트리를 활용해 적의 상태를 유기적으로 제어하는 구조를 프로젝트에 적용한다.
 ---
+## 2026-07-11
+
+### 오늘 목표
+- 행동 트리를 활용해 적의 상태와 행동을 제어하는 구조를 프로젝트에 적용하고 전투 흐름을 확인한다.
+### 오늘 한 일
+- Behavior Graph를 활용해 적의 Idle, Patrol, Wander, Chase, Attack 행동 흐름을 구성했다.
+- 적의 행동 분기에 사용할 EnemyState를 Blackboard Enum으로 추가했다.
+- 적과 플레이어 사이의 거리를 계산하고 Blackboard의 CurrentDistance를 갱신하는 UpdateDistanceAction을 추가했다.
+- CurrentDistance와 ChaseDistance를 비교해 플레이어 감지 여부를 판단하는 CheckTargetDetectCondition을 추가했다.
+- NavMeshAgent를 활용해 무작위 위치로 이동하는 WanderAction과 플레이어를 추적하는 ChaseAction을 추가했다.
+- Patrol 행동은 Behavior Graph에서 제공하는 기본 Navigate 노드를 활용해 구성했다.
+- 기존 WeaponBase의 TryAttack()을 호출하는 WeaponAction을 추가해 Behavior Graph의 Attack 행동과 기존 공격 시스템을 연결했다.
+- EnemyFSM에서 BehaviorGraphAgent를 참조하고 적 생성 시 Target과 PatrolPoints를 Blackboard에 전달하도록 수정했다.
+- EnemySpawner에서 적마다 사용할 WayPoint 그룹을 무작위로 선택해 전달하도록 수정했다.
+- Behavior Graph를 통한 상태 전환과 NavMeshAgent 이동, 공격 흐름이 정상적으로 동작하는 것을 확인했다.
+### 배운 내용
+- Behavior Graph의 Blackboard를 통해 Target, PatrolPoints, CurrentDistance와 같은 데이터를 여러 행동 노드에서 공유하는 흐름을 확인했다.
+- Action 노드는 실제 행동을 처리하고 Condition은 행동을 실행할 수 있는 조건을 판단하도록 역할을 분리할 수 있다는 것을 확인했다.
+- Try In Order는 앞쪽 브랜치부터 순서대로 확인하며, 현재 브랜치가 Failure를 반환하면 다음 브랜치를 실행하고 Success를 반환하면 이후 브랜치를 확인하지 않는 구조라는 것을 이해했다.
+- 실행 중인 노드가 Running 상태이면 해당 행동을 계속 실행하며, 조건 변화로 현재 행동이 중단되면 행동 흐름을 다시 평가해 다른 상태로 전환할 수 있다는 것을 확인했다.
+- 기존 FSM 방식보다 Behavior Graph를 활용한 방식이 여러 행동과 전환 조건을 시각적으로 구성하기 편리하다고 느꼈다.
+- Try In Order의 실행 흐름이 처음에는 익숙하지 않았지만 실제 프로젝트의 행동 분기를 구성하면서 이전보다 흐름을 이해할 수 있었다.
+### 막힌 부분
+- 게임 실행 시 `Failed to get BlackboardReference. Agent is not yet initialized.` 경고가 발생했다.
+- 디버깅 모드에 진입했다가 나온 이후에는 동일한 경고가 다시 발생하지 않아 정확한 발생 원인은 확인하지 못했다.
+### 해결한 방법
+- 현재 동일한 경고가 재현되지 않아 별도의 코드 수정은 진행하지 않았으며, 추후 다시 발생할 경우 BehaviorGraphAgent의 초기화 시점과 Blackboard 변수 설정 시점을 확인할 필요가 있다.
+### 개인 메모
+- Try In Order는 앞쪽 브랜치부터 순서대로 실행 가능한 행동을 찾고, Failure이면 다음 브랜치로 넘어가며 Success이면 해당 흐름을 종료한다. Running 상태에서는 현재 행동을 계속 실행한다.
+- Blackboard는 Target, 거리, 상태와 같이 여러 노드에서 필요한 데이터를 공유하는 역할을 하고, Action과 Condition을 조합해 행동과 전환 조건을 분리할 수 있다.
+- Behavior Graph는 실행 중인 행동과 조건 변화에 따라 그래프를 반복해서 평가하며 적절한 행동으로 전환한다.
+- FSM보다 행동을 제어하는 과정은 간단하게 느껴졌지만 Graph 구성과 각 노드의 실행 흐름에는 아직 익숙해질 필요가 있다.
+### 내일 할 일
+- 비동기 씬 로드 기능을 프로젝트에 적용한다.
+- Swipe UI를 활용한 챕터 선택 기능을 프로젝트에 적용한다.
+- 로비 구성 작업을 진행한다.
+---

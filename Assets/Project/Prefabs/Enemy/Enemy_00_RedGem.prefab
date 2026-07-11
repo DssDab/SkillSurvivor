@@ -44,6 +44,8 @@ GameObject:
   - component: {fileID: 2015955774305256526}
   - component: {fileID: 7689735486799694515}
   - component: {fileID: 637461057527642650}
+  - component: {fileID: 5107750998860284381}
+  - component: {fileID: 3913068532985702746}
   m_Layer: 6
   m_Name: Enemy_00_RedGem
   m_TagString: Enemy
@@ -184,9 +186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941a18998ed509a45a416e754591d418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyFSM
-  projectilePrefab: {fileID: 5899836532957948571, guid: c998a4574f096c447a042fa2cc8729f4, type: 3}
-  projectileSpawnPoint: {fileID: 9184064774405987212}
-  navMeshAgent: {fileID: 0}
 --- !u!195 &637461057527642650
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -209,6 +208,85 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
+--- !u!114 &5107750998860284381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775085164078844963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
+  m_Graph: {fileID: -5143191000050075551, guid: 5cc0a731f52263a4faeaf57ed9908011, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 5668855710849433844
+  - rid: 5668855713954791953
+  - rid: 5668855713954791954
+  - rid: 5668855713954791955
+  - rid: 5668855714723922057
+  m_OriginalGraph: {fileID: -5143191000050075551, guid: 5cc0a731f52263a4faeaf57ed9908011, type: 2}
+  m_IsInitialised: 0
+  m_IsStarted: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 5668855710849433844
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 1775085164078844963}
+    - rid: 5668855713954791953
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 4718026629353596353
+          m_Value1: 2406020698528026850
+        Name: attackDistance
+        m_Value: 4
+    - rid: 5668855713954791954
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1995067406142783574
+          m_Value1: 17617232130650009783
+        Name: chaseDistance
+        m_Value: 6
+    - rid: 5668855713954791955
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 14424584394433853010
+          m_Value1: 382069233761784997
+        Name: fallOutDistance
+        m_Value: 10
+    - rid: 5668855714723922057
+      type: {class: 'BlackboardVariable`1[[WeaponBase, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 2526270886470915857
+          m_Value1: 13581709213205891346
+        Name: currentWeapon
+        m_Value: {fileID: 3913068532985702746}
+--- !u!114 &3913068532985702746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775085164078844963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f001751eea30c34b80e09389c5c065a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponStraight
+  projectilePrefab: {fileID: 5899836532957948571, guid: c998a4574f096c447a042fa2cc8729f4, type: 3}
+  projectileSpawnPoint: {fileID: 9184064774405987212}
 --- !u!1 &4472026183525923599
 GameObject:
   m_ObjectHideFlags: 0

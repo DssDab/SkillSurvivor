@@ -20,6 +20,14 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 offset = new Vector3(0.5f, 0.5f, 0);
     private List<Vector3> possibleTiles = new List<Vector3>();
 
+    [System.Serializable]
+    private struct WayPointData
+    {
+        public GameObject[] wayPoints;
+    }
+    [SerializeField]
+    private WayPointData[] wayPointData;
+
     public static List<EntityBase> Enemies { get; private set; } = new List<EntityBase>();
     private void Awake()
     {
@@ -33,10 +41,11 @@ public class EnemySpawner : MonoBehaviour
         {
             int type = Random.Range(0, enemyPrefab.Length);
             int index = Random.Range(0, possibleTiles.Count);
+            int wayIndex = Random.Range(0, wayPointData.Length);
 
             GameObject clone = Instantiate(enemyPrefab[type], possibleTiles[index], Quaternion.identity, transform);
             clone.GetComponent<EnemyBase>().Initialize(this, parentTransform, gemCollector);
-            clone.GetComponent<EnemyFSM>().Setup(target);
+            clone.GetComponent<EnemyFSM>().Setup(target, wayPointData[wayIndex].wayPoints);
             Enemies.Add(clone.GetComponent<EntityBase>());
         }
     }
