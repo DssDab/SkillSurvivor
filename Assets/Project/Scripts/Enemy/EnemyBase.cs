@@ -35,7 +35,7 @@ public class EnemyBase : EntityBase
         clone.GetComponent<FollowTargetUI>().Setup(hudPoint);
         clone.GetComponent<UIHP>().Setup(this);
     }
-    public override void OnDie()
+    protected override void OnDie()
     {
         // 임의의 개수(gemMin ~ gemMax-1)만큼 보석 생성
         gemcollector.SpawnGemEffect(transform.position, Random.Range(gemMin, gemMax));

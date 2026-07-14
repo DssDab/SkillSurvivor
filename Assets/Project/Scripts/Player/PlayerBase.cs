@@ -2,6 +2,8 @@
 public class PlayerBase : EntityBase
 {
     [SerializeField]
+    private GameController gameController;
+    [SerializeField]
     private FollowTarget targetMask;
     [SerializeField]
     private LevelData levelData;            // 인게임 레벨별 경험치 테이블 정보
@@ -34,9 +36,9 @@ public class PlayerBase : EntityBase
         UpdateEXP();
     }
 
-    public override void OnDie()
+    protected override void OnDie()
     {
-        Logger.Log("플레이어 사망 처리");
+        gameController.GameOver();
     }
     private void SearchTarget()
     {

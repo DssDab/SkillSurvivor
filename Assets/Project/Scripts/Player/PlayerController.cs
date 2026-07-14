@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private VirtualJoystick joystick;
     private MovementRigidbody2D movement2D;
     private PlayerRenderer playerRenderer;
     private PlayerBase playerBase;
@@ -13,9 +15,17 @@ public class PlayerController : MonoBehaviour
         movement2D = GetComponent<MovementRigidbody2D>();
         playerRenderer = GetComponentInChildren<PlayerRenderer>();
         playerBase = GetComponent<PlayerBase>();
+#if UNITY_EDITOR
+        joystick.gameObject.SetActive(false);
+#elif UNITY_ANDROID
+        joystick.gameObject.SetActive(true);
+#endif
     }
     private void Update()
     {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        moveInput = new Vector2(joystick.Horizontal, joystick.Vertical);
+#endif
         // 플레이어 이동 여부 검사
         playerBase.IsMoved = moveInput.x !=0 || moveInput.y !=0;
         // 플레이어 좌우 반전

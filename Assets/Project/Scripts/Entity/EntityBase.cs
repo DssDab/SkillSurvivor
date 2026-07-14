@@ -34,5 +34,5 @@ public abstract class EntityBase : MonoBehaviour
             OnDie();    // Entity 사망 처리
         }
     }
-    public abstract void OnDie();
+    protected abstract void OnDie();
 }

@@ -8,7 +8,12 @@ public class IntroSceneController : MonoBehaviour
     private SceneNames nextScene;
     [SerializeField]
     private TextMeshProUGUI textPressAnyKey;
+    private void Awake()
+    {
+        Application.targetFrameRate = 60;
 
+        Database.Read();
+    }
     private IEnumerator Start()
     {
         while (true)

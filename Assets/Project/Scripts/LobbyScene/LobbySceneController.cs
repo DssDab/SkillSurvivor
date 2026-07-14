@@ -10,6 +10,8 @@ public class LobbySceneController : MonoBehaviour
     private ChapterData[] allChapter;
     [SerializeField]
     private SwipeUI swipeUI;
+    [SerializeField]
+    private HeartSystem heartSystem;
 
     private void Awake()
     {
@@ -24,13 +26,18 @@ public class LobbySceneController : MonoBehaviour
     {
         int index = swipeUI.CurrentPage;
 
-        if (allChapter[index].ChapterDatabase.isUnlock == false)
+        if (Database.DBItem.chapters[index].isUnlock == false)
         {
             Logger.Log("잠긴 챕터입니다.");
             return;
         }
+        if( !heartSystem.UseHeart(5))
+        {
+            Logger.Log("하트가 부족합니다.");
+            return;
+        }
 
-        Logger.Log($"챕터 {index + 1} 시작");
+        PlayerPrefs.SetInt(Constants.ChapterIndex, index);
 
         SceneLoader.Instance.LoadScene(SceneNames.Game);
     }
