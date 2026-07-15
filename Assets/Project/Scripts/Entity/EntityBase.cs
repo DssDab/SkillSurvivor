@@ -1,5 +1,11 @@
 ﻿using UnityEngine;
 
+public enum DamageResult
+{
+    Applied,
+    Evaded,
+    Ignored
+}
 public abstract class EntityBase : MonoBehaviour
 {
     [SerializeField]
@@ -18,13 +24,14 @@ public abstract class EntityBase : MonoBehaviour
         Stats.CurrentHP.DefaultValue = Stats.GetStat(StatType.HP).Value;
     }
 
-    public void TakeDamage(float damage)
+    public DamageResult TakeDamage(float damage)
     {
-        if (IsDead) return;
+        if (IsDead) 
+            return DamageResult.Ignored;
 
         // Evasion 스탯 확률로 회피
         if (Random.value < stats.GetStat(StatType.Evasion).Value)
-            return;
+            return DamageResult.Evaded;
 
         Stats.CurrentHP.DefaultValue -= damage;
 
@@ -33,6 +40,7 @@ public abstract class EntityBase : MonoBehaviour
             // 사망처리
             OnDie();    // Entity 사망 처리
         }
+        return DamageResult.Applied;
     }
     protected abstract void OnDie();
 }

@@ -36,6 +36,12 @@ public class ProjectileGlobal : ProjectileBase
     }
     protected void TakeDamage(EntityBase entity)
     {
+
+        DamageResult result = entity.TakeDamage(damage);
+
+        if (result == DamageResult.Ignored)
+            return;
+
         if (hitEffect != null)
         {
             Instantiate(hitEffect, entity.MiddlePoint, Quaternion.identity);
@@ -43,9 +49,11 @@ public class ProjectileGlobal : ProjectileBase
         if (damageText != null)
         {
             UIDamageText clone = Instantiate(damageText, entity.MiddlePoint, Quaternion.identity);
-            clone.Setup(damage.ToString("F0"), Color.white);
+            string damageStr = result == DamageResult.Evaded ? "Miss" : damage.ToString("F0");
+            Color color = result == DamageResult.Evaded ? Color.black : Color.white;
+            clone.Setup(damageStr, color);
         }
 
-        entity.TakeDamage(damage);
+       
     }
 }

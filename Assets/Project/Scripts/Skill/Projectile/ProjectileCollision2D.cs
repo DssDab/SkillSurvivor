@@ -38,17 +38,24 @@ public class ProjectileCollision2D : MonoBehaviour
             if (attackType == AttackType.Single && entity != target)
                 return;
 
-            if(hitEffect != null)
-            {
-                Instantiate(hitEffect, collision.transform.position, Quaternion.identity);
-            }
-            if(damageText != null)
-            {
-                UIDamageText clone = Instantiate(damageText, collision.transform.position, Quaternion.identity);
-                clone.Setup(damage.ToString("F0"), Color.white);
-            }
 
-            entity.TakeDamage(damage);
+            DamageResult result = entity.TakeDamage(damage);
+
+            if (result != DamageResult.Ignored)
+            {
+                if (hitEffect != null)
+                {
+                    Instantiate(hitEffect, collision.transform.position, Quaternion.identity);
+                }
+                if(damageText != null)
+                {
+                    UIDamageText clone = Instantiate(damageText, collision.transform.position, Quaternion.identity);
+                    Color color = result == DamageResult.Evaded ? Color.black : Color.white;
+                    string damageStr = result == DamageResult.Evaded ? "Miss" : damage.ToString("F0");
+                    clone.Setup(damageStr, color);
+                }
+
+            }
 
             if(destroyType == DestroyType.Collision)
             {

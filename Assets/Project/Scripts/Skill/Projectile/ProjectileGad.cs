@@ -47,20 +47,29 @@ public class ProjectileGad : MonoBehaviour
             if ( entity != target )
                 return;
 
-            if(hitEffect != null)
+            DamageResult result = entity.TakeDamage(damage);
+
+            if (result != DamageResult.Ignored)
             {
-                Instantiate(hitEffect, transform.position, Quaternion.identity);
-            }
-            if(damageText != null)
-            {
-                UIDamageText clone = Instantiate(damageText, transform.position, Quaternion.identity);
-                clone.Setup(damage.ToString("F0"), isCritical ? Color.red : Color.white);
-            }
-            entity.TakeDamage(damage);
-            if( metastasisCount > 0)
-            {
-                metastasisCount--;
-                FindNextTarget();
+                if (hitEffect != null)
+                {
+                    Instantiate(hitEffect, transform.position, Quaternion.identity);
+                }
+                if (damageText != null)
+                {
+                    UIDamageText clone = Instantiate(damageText, transform.position, Quaternion.identity);
+                    string damageStr = result == DamageResult.Evaded ? "Miss" : damage.ToString("F0");
+                    Color color = result == DamageResult.Evaded ? Color.black : Color.white;
+
+                    clone.Setup(damageStr, isCritical ? result == DamageResult.Evaded ? Color.black : Color.red : color);
+                }
+                if (metastasisCount > 0)
+                {
+                    metastasisCount--;
+                    FindNextTarget();
+                }
+                else
+                    Destroy(gameObject);
             }
             else
                 Destroy(gameObject);
@@ -76,6 +85,7 @@ public class ProjectileGad : MonoBehaviour
         {
             if (colliders[i].CompareTag("Enemy")&&
                 colliders[i].TryGetComponent<EntityBase>(out var entity)&&
+                !entity.IsDead&&
                 !entity.Equals(target))
             {
                 nextTarget = entity;
